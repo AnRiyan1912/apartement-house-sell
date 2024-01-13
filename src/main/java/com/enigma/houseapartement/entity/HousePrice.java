@@ -1,5 +1,6 @@
 package com.enigma.houseapartement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class HousePrice {
     private Double price;
     @ManyToOne
     @JoinColumn(name = "house_id")
+    @JsonBackReference
     private House house;
     @Column(name = "is_active")
     private Boolean isActive;

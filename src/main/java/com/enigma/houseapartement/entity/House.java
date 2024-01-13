@@ -24,9 +24,9 @@ public class House {
     private Integer unit;
     private Boolean wifi;
     private Boolean laundry;
-    @OneToMany
+    @OneToMany(mappedBy = "house")
     private List<HousePrice> housePrices;
-    @OneToMany
+    @OneToMany(mappedBy = "house")
     private List<Image> image;
     @Column(nullable = false, name = "is_active")
     private Boolean isActive;

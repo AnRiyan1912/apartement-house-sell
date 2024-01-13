@@ -21,5 +21,6 @@ public class HouseResponse {
     private Integer unit;
     private Boolean wifi;
     private Boolean laundry;
+    private Double price;
     private List<ImageResponse> images;
 }

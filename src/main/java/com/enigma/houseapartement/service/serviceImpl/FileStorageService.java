@@ -1,26 +1,25 @@
 package com.enigma.houseapartement.service.serviceImpl;
 
-import com.enigma.houseapartement.service.ImageService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.webjars.NotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+
 
 @Service
 public class FileStorageService {
-
-    private final Path fileStorageLocation = Paths.get("/home/user/BATCH14/spring boot/house-apartement/src/main/java/com/enigma/houseapartement/images/house");
-    public FileStorageService( ) {
+    private final Path fileStorageLocation ;
+    public FileStorageService(@Value("${app.house-apartement.pathSaveImage}") String pathLocation) {
         try{
-            Files.createDirectories(this.fileStorageLocation);
+            Files.createDirectories(this.fileStorageLocation = Paths.get(pathLocation));
         }catch (Exception e) {
             throw new RuntimeException("Could not create the directory");
         }
@@ -42,6 +41,19 @@ public class FileStorageService {
 
         }catch (IOException e){
             throw new RuntimeException("Could not store " + file.getOriginalFilename()+ " please check agaim " + e);
+        }
+    }
+
+    public Resource getFile(String fileName) {
+        try {
+            Path targetLocation = this.fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(targetLocation.toUri());
+            if (resource.exists()) {
+                return resource;
+            }
+            throw new NotFoundException("File not found " + fileName);
+        }catch (MalformedURLException e) {
+            throw new NotFoundException("File not found " + fileName);
         }
     }
 }

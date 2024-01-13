@@ -20,6 +20,7 @@ public class HouseRequest {
     private Integer unit;
     private Boolean wifi;
     private Boolean laundry;
+    private Double price;
     private MultipartFile[] file;
     private Boolean isActive;
     private LocalDateTime createdAt;

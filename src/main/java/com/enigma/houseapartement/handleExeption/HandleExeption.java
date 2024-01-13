@@ -19,4 +19,13 @@ public class HandleExeption {
                 .message(exception.getMessage())
                 .build();
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ExceptionHandler(NullPointerException.class)
+    public CommondResponse handleNullPointer(NullPointerException exeption){
+        return CommondResponse.builder()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .message(exeption.getMessage())
+                .build();
+    }
 }
